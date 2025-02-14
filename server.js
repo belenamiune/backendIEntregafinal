@@ -3,14 +3,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const exphbs = require('express-handlebars');
 const path = require('path');
-
 const cartRouter = require('./routes/cart.js');
+const methodOverride = require('method-override');
 
 
 const app = express();
 const PORT = 3000;
 
-// Configurar Handlebars
+// Configure Handlebars
 const hbs = exphbs.create({
     defaultLayout: "main",
     helpers: {
@@ -30,31 +30,30 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
 // Middleware para manejar JSON
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Use
 app.set('views', path.join(__dirname, 'views'));
 app.use('/cart', cartRouter);
-
-
 app.use('/products', require('./routes/products'));
+app.use(methodOverride('_method'));
 
-
-// Conexión a MongoDB Atlas
+// Conection to MongoDB Atlas
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => console.log('🟢 Conectado a MongoDB Atlas'))
   .catch(err => console.error('🔴 Error al conectar con MongoDB:', err));
 
-// Ruta principal
+
+
+//  Main route
 app.get('/', (req, res) => {
   res.send('Servidor funcionando');
 });
 
-// Iniciar el servidor
+// Init server
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });

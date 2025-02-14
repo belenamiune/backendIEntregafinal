@@ -41,16 +41,15 @@
               <h5 class="card-title">{{this.title}}</h5>
               <p class="card-text">{{this.description}}</p>
               <p class="card-text"><strong>${{this.price}}</strong></p>
-              
-              <a href="/products/{{this._id}}" class="btn btn-info">Ver detallesss</a>
 
-
-            <form action="/cart/add-product" method="POST">
-              <input type="hidden" name="productId" value="{{this._id}}">
-              <input type="hidden" name="cartId" value="67af5d134a7c64802dd950da"> <!-- Usa un cartId fijo por ahora -->
-              <button type="submit" class="btn btn-primary">Agregar al carrito</button>
-            </form>
-             
+              <div style="display: flex; justify-content: space-around;">
+              <a href="/products/{{this._id}}" class="btn btn-info btn-sm">Ver detalles</a>
+                <form action="/cart/add-product" method="POST">
+                  <input type="hidden" name="productId" value="{{this._id}}">
+                  <input type="hidden" name="cartId" value="67af5d134a7c64802dd950da"> 
+                  <button type="submit" class="btn btn-success btn-sm">Agregar al carrito</button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
@@ -63,11 +62,11 @@
   <!-- Paginación -->
   <div class="pagination">
     {{#if hasPrevPage}}
-      <a href="{{prevLink}}" class="btn btn-secondary">Anterior</a>
+      <a href="{{prevLink}}" class="btn btn-secondary btn-sm" style="margin-left: 1em; margin-right: 1em;">Anterior</a>
     {{/if}}
     <span>Página {{page}} de {{totalPages}}</span>
     {{#if hasNextPage}}
-      <a href="{{nextLink}}" class="btn btn-secondary">Siguiente</a>
+      <a href="{{nextLink}}" class="btn btn-secondary btn-sm" style="margin-left: 1em;">Siguiente</a>
     {{/if}}
   </div>
 </div>

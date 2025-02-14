@@ -1,20 +1,99 @@
+<!-- cart.handlebars -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Carrito de Compras</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Carrito</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
-  <h1>Mi carrito</h1>
+  <div class="container mt-5">
+    <h1>Carrito de Compras</h1>
 
-  <ul>
-    {{#each products}}
-      <li>
-        <p>{{this.product.name}} - ${{this.product.price}} x {{this.quantity}}</p>
-      </li>
-    {{/each}}
-  </ul>
+    <div class="row">
+      {{#if cart.products.length}}
+        {{#each cart.products}}
+          <div class="col-md-4 mb-3">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{this.productId.title}}</h5>
+                <p class="card-text">Precio: ${{this.productId.price}}</p>
+                <p class="card-text">Cantidad: {{this.quantity}}</p>
+                <button class="btn btn-danger delete-product-btn" data-cart-id="{{../cart._id}}" data-product-id="{{this.productId._id}}">
+                Eliminar
+                </button>
+              </div>
+            </div>
+          </div>
+        {{/each}}
+      {{else}}
+        <p>No hay productos en el carrito.</p>
+      {{/if}}
+    </div>
+    
+    <a href="/products" class="btn btn-primary">Volver a la tienda</a>
+    <button id="empty-cart-btn" class="btn btn-warning">Vaciar Carrito</button>
 
-  <button onclick="window.location.href='/products'">Volver a la tienda</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".delete-product-btn").forEach(button => {
+      button.addEventListener("click", async function () {
+        const cartId = this.getAttribute("data-cart-id");
+        const productId = this.getAttribute("data-product-id");
+
+        if (!cartId || !productId) {
+          console.error("Error: Falta el ID del carrito o del producto");
+          return;
+        }
+
+        const confirmDelete = confirm("¿Seguro que deseas eliminar este producto?");
+        if (!confirmDelete) return;
+
+        try {
+          const response = await fetch(`/cart/${cartId}/products/${productId}`, {
+            method: "DELETE",
+          });
+
+          if (response.ok) {
+            window.location.reload(); // Recargar la página después de eliminar el producto
+          } else {
+            console.error("Error al eliminar producto del carrito");
+          }
+        } catch (error) {
+          console.error("Error en la solicitud:", error);
+        }
+      });
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("empty-cart-btn").addEventListener("click", async function () {
+      const cartId = "{{cart._id}}";
+
+      if (!cartId) {
+        console.error("Error: No hay un cartId disponible");
+        return;
+      }
+
+      try {
+        const response = await fetch(`/cart/${cartId}/clear`, { method: "DELETE" });
+
+        if (response.ok) {
+          window.location.reload(); 
+        } else {
+          console.error("Error al vaciar el carrito");
+        }
+      } catch (error) {
+        console.error("Error en la solicitud:", error);
+      }
+    });
+  });
+</script>
 </body>
 </html>

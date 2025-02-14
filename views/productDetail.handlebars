@@ -18,9 +18,9 @@
         <p class="card-text"><strong>Categoría:</strong> {{product.category}}</p>
         <p class="card-text"><strong>Disponible:</strong> {{#if product.available}}Sí{{else}}No{{/if}}</p>
   
-        <form action="/cart/add-product" method="POST">
+             <form action="/cart/add-product" method="POST">
               <input type="hidden" name="productId" value="{{product._id}}">
-              <input type="hidden" name="cartId" value="{{cartId}}"> 
+              <input type="hidden" name="cartId" value="67af5d134a7c64802dd950da"> 
               <button type="submit" class="btn btn-success">Agregar al carrito</button>
           </form>
       </div>
