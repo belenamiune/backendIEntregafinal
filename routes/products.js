@@ -3,12 +3,12 @@ const Product = require('../models/Products.js');
 const router = express.Router();
 
 
-// Ruta GET para mostrar todos los productos
+// Get all products
 router.get('/add', (req, res) => {
   res.render('addProducts');
 });
 
-// Ruta GET con filtos
+// Get products with filters
 router.get('/', async (req, res) => {
   const { query = '', category = '', available = '', page = 1, limit = 10, sort = '' } = req.query;
 
@@ -70,7 +70,7 @@ router.get('/', async (req, res) => {
 
 
 
-// Ruta GET para mostrar detalles del producto seleccionado
+// Get product by ID
 router.get('/:pid', async (req, res) => {
   try {
     const product = await Product.findById(req.params.pid).lean(); 
@@ -89,7 +89,7 @@ router.get('/:pid', async (req, res) => {
 });
 
 
-// Ruta POST para agregar un nuevo producto
+//  Add product
 router.post('/add', async (req, res) => {
   const { name, description, price, category, available } = req.body;
 

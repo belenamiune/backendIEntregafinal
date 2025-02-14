@@ -4,7 +4,7 @@ const Product = require('../models/Products.js');
 const router = express.Router();
 
 
-// Crear un carrito vacío
+// Create cart
 router.post('/create', async (req, res) => {
   try {
     const newCart = new Cart({
@@ -65,7 +65,7 @@ router.get('/view-cart', async (req, res) => {
 
 
 
-// Obtener carrito por ID 
+// Get cart by ID
 router.get('/:cid', async (req, res) => {
   try {
     const cart = await Cart.findById(req.params.cid).populate('products.productId').lean(); 
@@ -83,7 +83,7 @@ router.get('/:cid', async (req, res) => {
 });
 
 
-// Eliminar un producto específico del carrito
+// Delete individual product
 router.delete('/:cid/products/:pid', async (req, res) => {
   try {
     const { cid, pid } = req.params;
@@ -93,7 +93,6 @@ router.delete('/:cid/products/:pid', async (req, res) => {
       return res.status(404).json({ message: 'Carrito no encontrado' });
     }
 
-    // Filtrar los productos para eliminar el que coincida con `pid`
     cart.products = cart.products.filter(p => p.productId.toString() !== pid);
 
     await cart.save();
@@ -105,6 +104,7 @@ router.delete('/:cid/products/:pid', async (req, res) => {
 });
 
 
+// Delete all products
 router.delete('/:cid/clear', async (req, res) => {
   try {
     const cart = await Cart.findById(req.params.cid);
