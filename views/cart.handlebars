@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Carrito de Compras</title>
+</head>
+<body>
+  <h1>Mi carrito</h1>
+
+  <ul>
+    {{#each products}}
+      <li>
+        <p>{{this.product.name}} - ${{this.product.price}} x {{this.quantity}}</p>
+      </li>
+    {{/each}}
+  </ul>
+
+  <button onclick="window.location.href='/products'">Volver a la tienda</button>
+</body>
+</html>
