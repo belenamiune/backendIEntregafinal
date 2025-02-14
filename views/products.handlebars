@@ -1,0 +1,27 @@
+<h1 class="text-center">Lista de Productos</h1>
+
+<div class="row">
+  {{#each products}}
+    <div class="col-md-4">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">{{title}}</h5>
+          <p class="card-text">{{description}}</p>
+          <p class="fw-bold">Precio: ${{price}}</p>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>
+
+<nav>
+  <ul class="pagination justify-content-center">
+    {{#if (gt page 1)}}
+      <li class="page-item"><a class="page-link" href="/products?page={{subtract page 1}}">Anterior</a></li>
+    {{/if}}
+    <li class="page-item active"><span class="page-link">{{page}}</span></li>
+    {{#if (lt page totalPages)}}
+      <li class="page-item"><a class="page-link" href="/products?page={{sum page 1}}">Siguiente</a></li>
+    {{/if}}
+  </ul>
+</nav>
