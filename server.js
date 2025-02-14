@@ -18,6 +18,7 @@ const hbs = exphbs.create({
       sum: (a, b) => a + b,
       subtract: (a, b) => a - b,
       lt: (a, b) => a < b, 
+      multiply: (a, b) => a * b,
       ifEquals: (a, b, options) => {
         if (a == b) {
           return options.fn(this); 

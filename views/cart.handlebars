@@ -13,17 +13,26 @@
     <div class="row">
       {{#if cart.products.length}}
         {{#each cart.products}}
-          <div class="col-md-4 mb-3">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">{{this.productId.title}}</h5>
-                <p class="card-text">Precio: ${{this.productId.price}}</p>
-                <p class="card-text">Cantidad: {{this.quantity}}</p>
-                <button class="btn btn-danger delete-product-btn" data-cart-id="{{../cart._id}}" data-product-id="{{this.productId._id}}">
-                Eliminar
-                </button>
-              </div>
+          <div class="cart-item d-flex align-items-center justify-content-between border p-3 rounded mb-3">
+            <div>
+              <p class="fw-bold">{{this.productId.name }}</p>
+              <p class="text-muted">Precio: ${{this.productId.price}}</p>
             </div>
+
+            <div class="input-group w-25">
+              <button class="btn btn-outline-secondary decrement-btn" data-product-id="{{this.productId._id}}">-</button>
+              <input type="number" class="form-control text-center quantity-input" 
+                    data-product-id="{{this.productId._id}}" value="{{this.quantity}}" min="1">
+              <button class="btn btn-outline-secondary increment-btn" data-product-id="{{this.productId._id}}">+</button>
+            </div>
+
+            <button class="btn btn-success update-quantity-btn" data-cart-id="{{../cart._id}}" data-product-id="{{this.productId._id}}">
+              Guardar
+            </button>
+
+            <button class="btn btn-danger delete-product-btn" data-cart-id="{{../cart._id}}" data-product-id="{{this.productId._id}}">
+              🗑
+            </button>
           </div>
         {{/each}}
       {{else}}
@@ -88,6 +97,52 @@
       } catch (error) {
         console.error("Error en la solicitud:", error);
       }
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".increment-btn").forEach(button => {
+      button.addEventListener("click", function () {
+        const input = this.previousElementSibling;
+        input.value = parseInt(input.value) + 1;
+      });
+    });
+
+    document.querySelectorAll(".decrement-btn").forEach(button => {
+      button.addEventListener("click", function () {
+        const input = this.nextElementSibling;
+        if (input.value > 1) input.value = parseInt(input.value) - 1;
+      });
+    });
+
+    document.querySelectorAll(".update-quantity-btn").forEach(button => {
+      button.addEventListener("click", async function () {
+        const cartId = this.getAttribute("data-cart-id");
+        const productId = this.getAttribute("data-product-id");
+        const input = document.querySelector(`.quantity-input[data-product-id="${productId}"]`);
+        const quantity = input.value;
+
+        if (!cartId || !productId || quantity <= 0) {
+          alert("Cantidad inválida");
+          return;
+        }
+
+        try {
+          const response = await fetch(`/cart/${cartId}/products/${productId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ quantity })
+          });
+
+          if (response.ok) {
+            window.location.reload();
+          } else {
+            alert("Error al actualizar la cantidad");
+          }
+        } catch (error) {
+          console.error("Error en la solicitud:", error);
+        }
+      });
     });
   });
 </script>

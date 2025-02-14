@@ -123,4 +123,60 @@ router.delete('/:cid/clear', async (req, res) => {
   }
 });
 
+// Modify all products
+router.put('/:cid', async (req, res) => {
+  try {
+    const { cid } = req.params;
+    const { products } = req.body;
+
+    if (!Array.isArray(products)) {
+      return res.status(400).json({ message: 'El formato de productos debe ser un array' });
+    }
+
+    const cart = await Cart.findById(cid);
+    if (!cart) {
+      return res.status(404).json({ message: 'Carrito no encontrado' });
+    }
+
+    cart.products = products;
+    await cart.save();
+
+    res.status(200).json({ message: 'Carrito actualizado correctamente', cart });
+  } catch (error) {
+    console.error('Error al actualizar el carrito:', error);
+    res.status(500).json({ message: 'Error interno del servidor' });
+  }
+});
+
+// Modify product by ID
+router.put('/:cid/products/:pid', async (req, res) => {
+  try {
+    const { cid, pid } = req.params;
+    const { quantity } = req.body;
+
+    if (!quantity || quantity < 1) {
+      return res.status(400).json({ message: 'La cantidad debe ser mayor a 0' });
+    }
+
+    const cart = await Cart.findById(cid);
+    if (!cart) {
+      return res.status(404).json({ message: 'Carrito no encontrado' });
+    }
+
+    const productIndex = cart.products.findIndex(p => p.productId.toString() === pid);
+    if (productIndex === -1) {
+      return res.status(404).json({ message: 'Producto no encontrado en el carrito' });
+    }
+
+    cart.products[productIndex].quantity = quantity;
+    await cart.save();
+
+    res.status(200).json({ message: 'Cantidad de producto actualizada', cart });
+  } catch (error) {
+    console.error('Error al actualizar la cantidad del producto:', error);
+    res.status(500).json({ message: 'Error interno del servidor' });
+  }
+});
+
+
 module.exports = router;
