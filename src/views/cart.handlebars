@@ -1,0 +1,19 @@
+<h1 class="text-2xl font-semibold mb-4 text-center">{{title}}</h1>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+  {{#if cart.products.length }}
+  {{#each cart.products}}
+    <div class="bg-white border rounded-lg shadow-md overflow-hidden">
+      <div class="p-4">
+        <h2 class="text-xl font-medium text-center mb-2">{{this.product.title}}</h2>
+        <p class="text-center mb-1"><strong>Description: </strong>{{this.product.description}}</p>
+        <p class="text-center mb-1"><strong>Price: </strong>${{this.product.price}}</p>
+        <p class="text-center mb-1"><strong>Category: </strong>{{this.product.category}}</p>
+        <p class="text-center"><strong>Amount: </strong> {{this.quantity}}</p>
+        <p class="text-center mb-1 text-gray-200"><strong>Code: </strong>{{this.product.code}}</p>
+      </div>
+    </div>
+  {{/each}}
+  {{else}} 
+    <h2 class=" text-indigo-600 ">Empty cart.</h2>
+    {{/if}}
+</div>

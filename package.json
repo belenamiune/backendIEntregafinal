@@ -3,22 +3,28 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "starts": "node src/index.js",
+    "start": "nodemon ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
-  "description": "",
+  "type": "module",
+  "keywords": [],
+  "engines": {
+    "node": "18.x"
+  },
   "dependencies": {
-    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-handlebars": "^8.0.1",
-    "express-session": "^1.18.1",
-    "method-override": "^3.0.0",
-    "mongoose": "^8.10.0"
+    "handlebars": "^4.7.8",
+    "mongoose": "^8.10.0",
+    "mongoose-paginate-v2": "^1.9.0",
+    "multer": "^1.4.5-lts.1",
+    "socket.io": "^4.8.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "@tailwindcss/cli": "^4.0.9",
+    "nodemon": "^3.1.9",
+    "tailwindcss": "^4.0.9"
   }
 }

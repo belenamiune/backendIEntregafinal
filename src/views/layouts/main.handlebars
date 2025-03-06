@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <title>{{title}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="/css/output.css" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-to-br from-gray-100 to-gray-300 text-gray-900">
+  <header class="bg-white shadow-md">
+    <nav class="container mx-auto flex justify-between items-center py-6 px-8">
+      <a href="/" class="text-3xl font-extrabold text-indigo-600 hover:text-indigo-700 transition">
+        LIBRARY
+      </a>
+
+      <ul class="flex space-x-6">
+        <li><a class="text-lg font-medium text-gray-700 hover:text-indigo-600 transition" href="/products">Products</a></li>
+        <li><a class="text-lg font-medium text-gray-700 hover:text-indigo-600 transition" href="/addproducts">Add Products</a></li>
+          {{!-- Example of a link to a specific cart --}}
+        <li><a class="text-lg font-medium text-gray-700 hover:text-indigo-600 transition" href="/carts/67c8a283cd6581af896b5d2d">Cart</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
+    {{{body}}}
+  </main>
+</body>
+</html>

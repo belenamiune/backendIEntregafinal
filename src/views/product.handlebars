@@ -1,0 +1,135 @@
+<div class="container mx-auto">
+  <ul class="flex justify-center gap-5 list-none">
+    {{#each product}}
+      <li class="bg-white border rounded-lg shadow-lg w-full md:w-1/3 mb-6">
+        <div class="text-center">
+          <img src="{{this.thumbnails.[0]}}" class="w-full h-56 object-cover rounded-t-lg" alt="{{this.title}}">
+          <div class="p-6 flex flex-col">
+            <h2 class="text-2xl font-semibold mb-2">{{this.title}}</h2>
+            <p class="text-center mb-2 text-gray-600"><strong>Description: </strong>{{this.description}}</p>
+            <p class="text-center mb-2 text-gray-600"><strong>Price: </strong>${{this.price}}</p>
+            <p class="text-center mb-4 text-gray-600"><strong>Category: </strong>{{this.category}}</p>
+            <p class="text-center mb-2 text-gray-200"><strong>Code: </strong>{{this.code}}</p>
+            <button data-id="{{this._id}}" onclick="addToCart('{{this._id}}')" class="bg-indigo-500 text-white py-2 px-6 rounded-lg hover:bg-indigo-600 transition duration-300">
+              Add to Cart
+            </button>
+            <button 
+              class="bg-green-500 text-black p-3 rounded-lg mt-4 hover:bg-red-600 0"  
+              onclick="toggleEditForm('{{this._id}}')">
+              Update Product
+            </button>
+          </div>
+        </div>
+      </li>
+    {{/each}}
+  </ul>
+
+  <div id="editProductForm" class="mt-8 hidden border p-6 bg-red-400 rounded-lg shadow-lg">
+    <h3 class="text-2xl font-semibold text-gray-800">Edit Product</h3>
+    <form id="updateProductForm" class="space-y-6 mt-4">
+      <input 
+        type="text" 
+        id="updateTitle" 
+        value="{{product.title}}" 
+        required 
+        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-300" 
+        placeholder="Title"
+      />
+      <input 
+        type="text" 
+        id="updateDescription" 
+        value="{{product.description}}" 
+        required 
+        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-300" 
+        placeholder="Description"
+      />
+      <input 
+        type="number" 
+        id="updatePrice" 
+        value="{{product.price}}" 
+        required 
+        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-300" 
+        placeholder="Price"
+      />
+      <input 
+        type="text" 
+        id="updateCategory" 
+        value="{{product.category}}" 
+        required 
+        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-300" 
+        placeholder="Category"
+      />
+      <input 
+        type="text" 
+        id="updateCode" 
+        value="{{product.code}}" 
+        required 
+        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-300" 
+        placeholder="Code"
+      />
+      <button type="submit" class="bg-red-500 text-black py-3 px-6 rounded-lg w-full hover:bg-red-600 transition duration-300">
+        Update
+      </button>
+    </form>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function addToCart(productId) {
+    console.log("Product added to cart:", productId);
+  }
+
+  document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', function() {
+      const productId = this.getAttribute('data-id');
+      addToCart(productId);
+    });
+  });
+
+  function toggleEditForm(productId) {
+    const form = document.getElementById('editProductForm');
+    form.classList.toggle('hidden');
+    form.setAttribute('data-product-id', productId);
+  }
+  document.getElementById('updateProductForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const form = document.getElementById('editProductForm');
+    const productId = form.getAttribute('data-product-id'); 
+    
+    if (!productId) {
+      alert("Product ID is missing!");
+      return;
+    }
+
+    const updatedData = {
+      title: document.getElementById('updateTitle').value,
+      description: document.getElementById('updateDescription').value,
+      price: document.getElementById('updatePrice').value,
+      category: document.getElementById('updateCategory').value,
+      code: document.getElementById('updateCode').value,
+    };
+
+    try {
+      const response = await fetch(`/api/products/${productId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert('Product updated successfully!');
+        window.location.reload();
+      } else {
+        alert('Error updating product: ' + result.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error updating product.');
+    }
+  });
+</script>

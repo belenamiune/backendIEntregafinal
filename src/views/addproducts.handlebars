@@ -1,0 +1,61 @@
+<div class="container mx-auto p-6">
+  <div class="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow-md">
+    <h2 class="text-3xl font-semibold text-center text-gray-800 mb-8">Add Product</h2>
+    <form id="addProductForm">
+      <div class="mb-6">
+        <label for="title" class="block text-lg font-medium text-gray-700">Title</label>
+        <input type="text" id="title" class="w-full p-4 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter product title" required>
+      </div>
+
+      <div class="mb-6">
+        <label for="description" class="block text-lg font-medium text-gray-700">Description</label>
+        <input type="text" id="description" class="w-full p-4 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter product description" required>
+      </div>
+
+      <div class="mb-6">
+        <label for="price" class="block text-lg font-medium text-gray-700">Price</label>
+        <input type="text" id="price" class="w-full p-4 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter product price" required>
+      </div>
+
+      <div class="mb-6">
+        <label for="category" class="block text-lg font-medium text-gray-700">Category</label>
+        <input type="text" id="category" class="w-full p-4 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter product category" required>
+      </div>
+
+      <div class="mb-6">
+        <label for="image" class="block text-lg font-medium text-gray-700">Image URL</label>
+        <input type="text" id="image" class="w-full p-4 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter image URL">
+      </div>
+
+      <div class="mb-6">
+        <label for="code" class="block text-lg font-medium text-gray-700">Product Code</label>
+        <input type="text" id="code" class="w-full p-4 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter product code" required>
+      </div>
+
+      <button type="button" class="w-full py-3 mt-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500" onclick="addProduct()">Add Product</button>
+    </form>
+
+    <div id="state1" class="my-3"></div>
+  </div>
+
+  <div class="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow-md mt-8">
+    <h2 class="text-3xl font-semibold text-center text-gray-800 mb-8">Delete Product</h2>
+    <form id="deleteProductForm">
+      <div class="mb-6">
+        <label for="product_id" class="block text-lg font-medium text-gray-700">Select Product to Delete</label>
+        <select id="product_id" class="w-full p-4 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500">
+          <option value="">Select a product</option>
+        </select>
+      </div>
+
+      <button type="button" class="w-full py-3 mt-4 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500" onclick="deleteProduct()">Delete Product</button>
+    </form>
+
+    <div id="state2" class="my-3"></div>
+  </div>
+   <div id="content" class="row">
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="/js/addproducts.js"></script>
